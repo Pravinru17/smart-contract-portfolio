@@ -1,0 +1,76 @@
+## Day 2
+
+### SimpleStorage.sol
+
+Built my first Solidity contract with multiple state variables and functions.
+
+### Concepts Learned
+
+* uint256
+* string
+* address
+* bool
+* constructor
+* msg.sender
+
+### Contract
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+contract SimpleStorage {
+    uint256 public favoriteNumber;
+    string public name;
+    address public owner;
+    bool public isActive;
+
+    constructor() {
+        owner = msg.sender;
+        isActive = true;
+    }
+
+    function store(uint256 _num) public {
+        favoriteNumber = _num;
+    }
+
+    function retrieve() public view returns(uint256) {
+        return favoriteNumber;
+    }
+
+    function getOwner() public view returns(address) {
+        return owner;
+    }
+}
+```
+
+### Functions
+
+#### store(uint256 _num)
+
+Stores a new number in the contract.
+
+#### retrieve()
+
+Returns the stored number.
+
+#### getOwner()
+
+Returns the contract owner's address.
+
+### What I Learned
+
+* How state variables work
+* How constructors execute during deployment
+* How msg.sender identifies the caller
+* How view functions read blockchain data
+* Basic contract deployment using Remix
+
+### Status
+
+✅ Deployed on Remix
+
+✅ Tested all functions
+
+✅ Added to portfolio
+
