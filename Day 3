@@ -1,0 +1,68 @@
+## Day 3
+
+### Bank.sol
+
+Built a simple banking contract using Solidity.
+
+### Concepts Learned
+
+* mapping
+* address
+* payable
+* msg.value
+* require
+* constructor
+
+### Contract
+
+```solidity
+contract Bank {
+    mapping(address => uint256) public balances;
+    address[] public depositors;
+    address public owner;
+    uint256 public totalDeposits;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    function deposit() public payable {
+        require(msg.value > 0, "Must deposit > 0");
+
+        if (balances[msg.sender] == 0) {
+            depositors.push(msg.sender);
+        }
+
+        balances[msg.sender] += msg.value;
+        totalDeposits += msg.value;
+    }
+
+    function getBalance() public view returns(uint256) {
+        return balances[msg.sender];
+    }
+
+    function getDepositorCount() public view returns(uint256) {
+        return depositors.length;
+    }
+
+    function getTotalDeposits() public view returns(uint256) {
+        return totalDeposits;
+    }
+}
+```
+
+### Testing Performed
+
+✅ Deposit 1 ETH
+
+✅ Deposit 2 ETH
+
+✅ Deposit 0 ETH (reverted)
+
+✅ Check depositor count
+
+✅ Check total deposits
+
+### Status
+
+Deployed and tested successfully on Remix.
