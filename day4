@@ -1,0 +1,62 @@
+# TodoList Smart Contract
+
+A simple TodoList smart contract built in Solidity to practice:
+
+* Structs
+* Enums
+* Mappings
+* Custom Errors
+* Access Control
+* State Management
+
+## Features
+
+### Task Creation
+
+Users can create tasks with:
+
+* Description
+* Status
+* Creator Address
+* Creation Timestamp
+* Deadline
+
+### Task Completion
+
+Only the creator can complete a task.
+
+Validation checks:
+
+* Caller must be task creator
+* Task must be pending
+* Deadline must not have passed
+
+## Status Flow
+
+Pending → Completed
+
+Additional enum value:
+
+* Cancelled
+
+## Gas Optimization
+
+Uses custom errors instead of require strings.
+
+Example:
+
+error NotTaskCreator();
+
+if (tasks[index].creator != msg.sender) {
+revert NotTaskCreator();
+}
+
+Custom errors are more gas efficient than revert strings.
+
+## Learning Outcomes
+
+* How structs organize related data
+* How enums manage contract state
+* How mappings associate users with tasks
+* How custom errors reduce gas costs
+* How access control is implemented in Solidity
