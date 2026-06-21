@@ -1,0 +1,49 @@
+
+contract Bank {
+        bool public paused;
+        uint256 public constant MIN_DEPOSIT = 0.001 ether;
+        uint256 public constant MAX_DEPOSIT = 100 ether;
+
+        event Deposit(
+            address indexed user,
+            uint256 amount,
+            uint256 newBalance
+        );
+        event Withdraw(
+            address indexed user,
+            uint256 amount,
+            uint256 remaining
+        );
+        event Paused(address by);
+        event Unpaused(address by);
+
+        modifier onlyOwner() {
+            require(msg.sender == owner, "Not owner");
+            _;
+        }
+        modifier notPaused() {
+            require(!paused, "Contract paused");
+            _;
+        }
+        modifier validDeposit() {
+            require(msg.value >= MIN_DEPOSIT, "Too small");
+            require(msg.value <= MAX_DEPOSIT, "Too large");
+            _;
+        }
+        function pause() public onlyOwner {
+            paused = true;
+            emit Paused(msg.sender);
+        }
+        function unpause() public onlyOwner {
+            paused = false;
+            emit Unpaused(msg.sender);
+        }
+        function deposit() public payable
+        notPaused validDeposit {
+            if(balances[msg.sender] == 0) {
+                depositors.push(msg.sender);
+            }
+            balances[msg.sender] += msg.value;
+            totalDeposits += msg.value;
+            emit Deposit(msg.sender, msg.value, balances[msg.sender]);
+        }
